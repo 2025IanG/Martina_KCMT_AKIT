@@ -14,8 +14,8 @@
 package frc.robot.subsystems.drive;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -34,13 +34,14 @@ import edu.wpi.first.wpilibj.RobotController;
  * absolute encoders using AdvantageScope. These values are logged under
  * "/Drive/ModuleX/TurnAbsolutePositionRad"
  */
-public class ModuleIOSparkMax implements ModuleIO {
+public class ModuleIOSparkFlex implements ModuleIO {
   // Gear ratios for SDS MK4i L2, adjust as necessary
+  // TODO: Adjust Gear Ratios for MaxSwerve Modules
   private static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
   private static final double TURN_GEAR_RATIO = 150.0 / 7.0;
 
-  private final CANSparkMax driveSparkMax;
-  private final CANSparkMax turnSparkMax;
+  private final CANSparkFlex driveSparkMax;
+  private final CANSparkFlex turnSparkMax;
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turnRelativeEncoder;
@@ -49,29 +50,30 @@ public class ModuleIOSparkMax implements ModuleIO {
   private final boolean isTurnMotorInverted = true;
   private final Rotation2d absoluteEncoderOffset;
 
-  public ModuleIOSparkMax(int index) {
+  public ModuleIOSparkFlex(int index) {
+    // TODO: calibrate swerve modules THE NEW WAY
     switch (index) {
       case 0:
-        driveSparkMax = new CANSparkMax(1, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(2, MotorType.kBrushless);
+        driveSparkMax = new CANSparkFlex(11, MotorType.kBrushless);
+        turnSparkMax = new CANSparkFlex(12, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(0);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 1:
-        driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(4, MotorType.kBrushless);
+        driveSparkMax = new CANSparkFlex(21, MotorType.kBrushless);
+        turnSparkMax = new CANSparkFlex(22, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(1);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 2:
-        driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(6, MotorType.kBrushless);
+        driveSparkMax = new CANSparkFlex(31, MotorType.kBrushless);
+        turnSparkMax = new CANSparkFlex(32, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(2);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 3:
-        driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(8, MotorType.kBrushless);
+        driveSparkMax = new CANSparkFlex(41, MotorType.kBrushless);
+        turnSparkMax = new CANSparkFlex(42, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(3);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
